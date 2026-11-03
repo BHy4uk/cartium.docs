@@ -358,7 +358,74 @@
     syncThemeColor();
     lastY = window.scrollY;
     onScroll();
+    if (location.hash) {
+      landOnHash();
+    }
   }
+
+
+  /* ---------- Перехід за якорем: довести до заголовка ----------
+     Браузер рахує місце призначення одразу, а сторінка ще росте (шрифт,
+     анімація появи), тож перехід «Вигляд» з меню зупинявся десь на
+     «Доставці». Після прокрутки звіряємо ще раз і доводимо. Будь-який
+     дотик чи прокрутка людини скасовує поправку. */
+  var hashRun = 0;
+
+  function revealShift(el) {
+    var m = getComputedStyle(el).transform;
+    if (!m || m === "none") {
+      return 0;
+    }
+    var parts = m.slice(m.indexOf("(") + 1, -1).split(",");
+    return parseFloat(parts[parts.length === 6 ? 5 : 13]) || 0;
+  }
+
+  function landOnHash() {
+    var id = "";
+    try {
+      id = decodeURIComponent(location.hash.slice(1));
+    } catch (e) {
+      id = location.hash.slice(1);
+    }
+    var target = id && document.getElementById(id);
+    if (!target) {
+      return;
+    }
+    var run = ++hashRun;
+    var tries = 0;
+    function stop() {
+      hashRun++;
+    }
+    ["touchstart", "wheel", "keydown"].forEach(function (type) {
+      window.addEventListener(type, stop, { once: true, passive: true });
+    });
+    function fix() {
+      if (run !== hashRun || !document.body.contains(target)) {
+        return;
+      }
+      var pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      var off = target.getBoundingClientRect().top - revealShift(target) - pad;
+      if (Math.abs(off) > 4) {
+        window.scrollTo({ top: window.scrollY + off, behavior: "auto" });
+      }
+      if (++tries < 4) {
+        setTimeout(fix, 350);
+      }
+    }
+    var started = false;
+    function begin() {
+      if (!started) {
+        started = true;
+        fix();
+      }
+    }
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", begin, { once: true });
+    }
+    setTimeout(begin, 1200);
+  }
+
+  window.addEventListener("hashchange", landOnHash);
 
   if (window.document$ && typeof window.document$.subscribe === "function") {
     window.document$.subscribe(init);

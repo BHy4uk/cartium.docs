@@ -51,7 +51,10 @@ def _size(path):
 
 
 def on_page_content(html, page, config, files):
-    page_dir = os.path.dirname(os.path.join(config["docs_dir"], page.file.src_path))
+    # src у готовому HTML відносний до адреси сторінки (owner-guide/ → ../assets/…),
+    # а не до .md-файлу; без розміру браузер не знає висоти знімка, поки той не
+    # завантажився, і перехід за якорем зупиняється вище потрібного місця.
+    page_dir = os.path.dirname(page.file.dest_uri)
     # на головній перші три знімки — у герої першого екрана, їх вантажимо одразу
     eager = [3 if page.is_homepage else 0]
 
@@ -64,7 +67,7 @@ def on_page_content(html, page, config, files):
             extra = ' loading="lazy" decoding="async"'
         src = SRC.search(tag)
         if src and "://" not in src.group(1):
-            size = _size(os.path.normpath(os.path.join(page_dir, src.group(1))))
+            size = _size(os.path.join(config["docs_dir"], os.path.normpath(os.path.join(page_dir, src.group(1)))))
             if size:
                 extra += f' width="{size[0]}" height="{size[1]}"'
         return FRAME.format(img=tag[:-1].rstrip("/ ") + extra + ">")

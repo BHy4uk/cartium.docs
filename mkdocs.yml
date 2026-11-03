@@ -35,23 +35,21 @@ theme:
     - search.highlight
     - search.share
     - toc.follow
-  # Палітра в стилі cartium.store («soft graphite»): кольори задає styles/extra.css,
-  # тут лише дві схеми, які за замовчуванням ідуть за системною темою.
+  # Палітра в стилі cartium.store («soft graphite» + ультрафіолет): кольори задає styles/extra.css.
+  # Як і на сайті, за замовчуванням темна тема; вибір відвідувача зберігається.
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: custom
-      accent: custom
-      toggle:
-        icon: ph/moon
-        name: Темна тема
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+    - scheme: slate
       primary: custom
       accent: custom
       toggle:
         icon: ph/sun
         name: Світла тема
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: ph/moon
+        name: Темна тема
   # Шрифт Fixel (як на сайті) підключається локально в styles/extra.css
   font: false
 

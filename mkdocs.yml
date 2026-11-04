@@ -91,6 +91,9 @@ extra:
   signup_url: https://t.me/cartium_support_bot?start=connect
   bot_url: https://t.me/cartium_support_bot
   bot_handle: cartium_support_bot
+  # Питання пишуть людині, а не боту: бот лише створює магазини.
+  support_url: https://t.me/cartium_support
+  support_handle: cartium_support
   terms_url: https://cartium.work/terms
   privacy_url: https://cartium.work/privacy
 

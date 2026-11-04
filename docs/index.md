@@ -143,4 +143,4 @@ API ключ, дані відправника і ТТН з картки замо
 Найдовше чекати на банк: онлайн-оплату LiqPay чи plata by mono він підтверджує кілька днів. Подайте заявку першою, а поки чекаєте, приймайте оплату за реквізитами або післяплатою.
 
 !!! info "Потрібна допомога?"
-    Напишіть нам у Telegram: [@cartium_support_bot](https://t.me/cartium_support_bot).
+    Напишіть нам у Telegram: [@cartium_support](https://t.me/cartium_support).

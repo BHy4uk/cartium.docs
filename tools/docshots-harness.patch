@@ -1,5 +1,5 @@
 diff --git a/tools/webapp-harness/drive.mjs b/tools/webapp-harness/drive.mjs
-index 8d4207a..8755dc6 100644
+index 5aa8fac..6601c53 100644
 --- a/tools/webapp-harness/drive.mjs
 +++ b/tools/webapp-harness/drive.mjs
 @@ -53,7 +53,7 @@ for (const sc of scenarios) {
@@ -21,7 +21,7 @@ index 8d4207a..8755dc6 100644
        if (st.swipe) { await evaluate(HELPERS); const pt = await evaluate(`(function(){var p=${st.swipe}; return {x:p.x,y:p.y}})()`); await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: pt.x, y: pt.y }] }); for (let k = 1; k <= 4; k++) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: pt.x, y: pt.y - 20 * k }] }); } await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(st.after ?? 450); }
        /* tap: a real touch at a point (x/y are JS expressions evaluated in the page). */
 diff --git a/tools/webapp-harness/server.mjs b/tools/webapp-harness/server.mjs
-index 3519af4..bf3ac9e 100644
+index 93fb576..d9284d5 100644
 --- a/tools/webapp-harness/server.mjs
 +++ b/tools/webapp-harness/server.mjs
 @@ -262,7 +262,12 @@ http.createServer(async (req, res) => {
@@ -30,21 +30,21 @@ index 3519af4..bf3ac9e 100644
      if (p === "/__reset") { reset(Object.fromEntries(u.searchParams)); return json(res, { ok: true }); }
 -    if (p.startsWith("/__img/")) { res.writeHead(200, { "Content-Type": "image/svg+xml" }); return res.end(svg(p.slice(7).replace(".svg", ""), u.searchParams.get("alt"))); }
 +    if (p.startsWith("/__img/")) {
-+      const PHOTO = { tee: "tee.png", jeans: "pants.png", shorts: "shorts.png", ring: "ring.png" };
++      const PHOTO = { tee: "tee.png", hoodie: "tee-ai/ghost_mannequin.jpg", jeans: "pants.png", shorts: "shorts.png", ring: "ring.png" };
 +      const shape = p.slice(7).replace(".svg", "");
-+      if (process.env.PRODUCT_PHOTOS && PHOTO[shape]) { res.writeHead(200, { "Content-Type": "image/png" }); return res.end(fs.readFileSync(path.join(process.env.PRODUCT_PHOTOS, PHOTO[shape]))); }
++      if (process.env.PRODUCT_PHOTOS && PHOTO[shape]) { res.writeHead(200, { "Content-Type": /\.jpe?g$/.test(PHOTO[shape]) ? "image/jpeg" : "image/png" }); return res.end(fs.readFileSync(path.join(process.env.PRODUCT_PHOTOS, PHOTO[shape]))); }
 +      res.writeHead(200, { "Content-Type": "image/svg+xml" }); return res.end(svg(shape, u.searchParams.get("alt")));
 +    }
      if (p.startsWith("/__frame")) { // iframe wrapper for fixed-width screenshots of the whole shell
        res.writeHead(200, { "Content-Type": "text/html" }); return res.end(`<body style="margin:0;background:#888"><iframe src="${u.searchParams.get("src")}" style="width:${u.searchParams.get("w") || 390}px;height:${u.searchParams.get("h") || 844}px;border:0;display:block"></iframe></body>`);
      }
 diff --git a/tools/webapp-harness/suites/docshots.mjs b/tools/webapp-harness/suites/docshots.mjs
-index 120902b..b05c47e 100644
+index 41d39aa..f5047c7 100644
 --- a/tools/webapp-harness/suites/docshots.mjs
 +++ b/tools/webapp-harness/suites/docshots.mjs
-@@ -37,6 +37,15 @@ export default [
-     { js: `[].slice.call(${F}.querySelectorAll('button')).find(function(b){return /Додати товар/.test(b.textContent)}).click()`, after: 900 },
-     lift("#createDrawer .pf-photos", 160),
+@@ -43,6 +43,15 @@ export default [
+     { js: `[].slice.call(${F}.querySelectorAll('.product-row')).find(function(r){return /Футболка/.test(r.textContent)}).querySelector('.product-name').click()`, after: 1200 },
+     { js: `${F}.querySelector('#productEditor [data-pe-view=preview]').click()`, after: 3500 },
    ]),
 +  sc("categories", [
 +    { js: `${id('productsCategoriesBtn')}.click()`, after: 600 },
@@ -58,7 +58,7 @@ index 120902b..b05c47e 100644
    sc("import-empty", [more("Імпорт")]),
    sc("import-preview", [more("Імпорт"), pick("products.csv"), { js: `${id('importSubmitBtn')}.click()`, after: 900 }, lift('#importPreview')]),
    sc("import-result", [more("Імпорт"), pick("products.csv"), { js: `${id('importSubmitBtn')}.click()`, after: 900 }, { js: `${id('importConfirmBtn')}.click()`, after: 1400 }, lift('#importReport')]),
-@@ -52,13 +61,19 @@ export default [
+@@ -58,13 +67,19 @@ export default [
    sc("settings-all", [tab("Налаштування")], { reset: { pay: "1" } }),
    sc("settings-subscription", [tab("Налаштування"), section("subscription")], { reset: { sub: "1" } }),
    sc("settings-access-mode", [tab("Налаштування"), section("subscription"), into("#settingsSubscriptionAccessMode")], { reset: { sub: "1" } }),

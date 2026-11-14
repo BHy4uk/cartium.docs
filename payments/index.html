@@ -1598,45 +1598,54 @@
 </div>
 <hr />
 <h2 id="що-бачить-покупець">Що бачить покупець<a class="headerlink" href="#що-бачить-покупець" title="Permanent link">&para;</a></h2>
-<p>У момент оформлення покупцю показуються такі варіанти:</p>
+<p>На кроці <code>Оплата</code> покупець бачить список способів. Під кожним коротка підказка, а повний опис з'являється, коли спосіб обрано.</p>
 <table>
 <thead>
 <tr>
 <th>Що бачить покупець</th>
+<th>Підказка під назвою</th>
 <th>Що це насправді</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>Оплатити карткою онлайн</code></td>
-<td>Stripe: картка, Apple Pay, Google Pay та інші способи</td>
+<td>Картка, Apple Pay, Google Pay</td>
+<td>Stripe, разом із місцевими способами</td>
 </tr>
 <tr>
 <td><code>Оплатити через PayPal</code></td>
-<td>PayPal: гаманець або картка</td>
+<td>Акаунт PayPal або картка</td>
+<td>PayPal</td>
 </tr>
 <tr>
-<td><code>💳 Оплатити онлайн через LiqPay</code></td>
-<td>LiqPay: Apple Pay, Google Pay або картка</td>
+<td><code>Оплатити онлайн через LiqPay</code></td>
+<td>Картка, Apple Pay, Google Pay</td>
+<td>LiqPay</td>
 </tr>
 <tr>
-<td><code>💳 Оплатити онлайн через Monobank</code></td>
-<td>Еквайринг <code>plata by mono</code>, картка будь-якого банку</td>
+<td><code>Оплатити онлайн через Monobank</code></td>
+<td>Картка, Apple Pay, Google Pay</td>
+<td>Еквайринг <code>plata by mono</code></td>
 </tr>
 <tr>
-<td><code>💳 Онлайн оплата</code></td>
-<td>Оплата за вашим посиланням</td>
+<td><code>Оплата за посиланням</code></td>
+<td>Сторінка оплати від магазину</td>
+<td>Ваше платіжне посилання</td>
 </tr>
 <tr>
-<td><code>🏦 Банківські реквізити</code></td>
-<td>Переказ за IBAN — позначено бейджем <code>IBAN</code></td>
+<td><code>Банківські реквізити</code></td>
+<td>Переказ за реквізитами</td>
+<td>Переказ за IBAN, з кнопкою <code>Скопіювати реквізити</code></td>
 </tr>
 <tr>
-<td><code>📦 Накладений платіж</code></td>
+<td><code>Накладений платіж</code></td>
+<td>Оплата під час отримання</td>
 <td>Оплата при отриманні</td>
 </tr>
 </tbody>
 </table>
+<p>Унизу екрана завжди видно суму <code>До оплати</code> і одну головну кнопку. Для онлайн-оплати це <code>Перейти до оплати</code>, для реквізитів і посилання <code>Я оплатив(ла)</code>, для накладеного платежу <code>Підтвердити замовлення</code>.</p>
 <p>Для <code>Stripe</code>, <code>PayPal</code>, <code>LiqPay</code> і <code>plata by mono</code> після успішної оплати замовлення підтверджується <strong>автоматично</strong>. Для решти способів покупець тисне <code>Я оплатив(ла)</code>, а ви підтверджуєте вручну.</p>
 <hr />
 <h2 id="перевірка-чи-все-працює">Перевірка: чи все працює<a class="headerlink" href="#перевірка-чи-все-працює" title="Permanent link">&para;</a></h2>

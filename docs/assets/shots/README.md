@@ -46,6 +46,7 @@ python tools/export_shots.py <шлях до insomnia.workshop>/tools/webapp-harn
 | `delivery-list`, `delivery-service`, `delivery-countries` | Екран `Доставка`, екран служби й екран `Країни доставки` (сценарії в `tools/docshots-harness.patch`) | owner-guide |
 | `appearance`, `appearance-edit`, `appearance-templates`, `appearance-colors` | Редактор вигляду: магазин з панеллю інструментів, панелі `Кнопки в шапці`, `Шаблон магазину`, `Кольори й кнопки` з вибором кольору | quick-start, owner-guide |
 | `promos`, `campaigns`, `analytics`, `customers` | Інструменти зростання | index, owner-guide |
+| `checkout-form`, `checkout-delivery`, `checkout-payment`, `checkout-details` | Оформлення замовлення очима покупця: контакти, служби доставки, оплата, реквізити (сценарії в `tools/docshots-harness.patch`) | owner-guide, payments, launch |
 | `settings-all`, `shell-orders` | Генеруються сценарієм, поки ніде не використані | — |
 
 ## Те, що генерувати не можна

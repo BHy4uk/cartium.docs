@@ -6,7 +6,7 @@
 
 Більшість власників керують магазином з телефона, тому **усі знімки Mini App — мобільні**: 390×844 CSS-пікселів, щільність ×3 (файл 1170 px завширшки), WebP.
 
-Знімки не робляться руками: їх генерує сценарій `docshots` у репозиторії продукту (`insomnia.workshop`) на тестових даних, тож у них немає реальних клієнтів, телефонів чи ключів. Товари на знімках — ті самі демо-фото, що й на cartium.store (футболка, джинси, шорти з великим знаком питання й кільце), а не намальовані силуети.
+Знімки не робляться руками: їх генерує сценарій `docshots` у репозиторії продукту (`insomnia.workshop`) на тестових даних, тож у них немає реальних клієнтів, телефонів чи ключів. Товари на знімках — ті самі демо-фото, що й на cartium.store (футболка, джинси, шорти з великим знаком питання й кільце), а не намальовані силуети. Друге фото футболки — `tee-ai/ghost_mannequin.jpg`.
 
 ```bash
 # 1. У репозиторії продукту тимчасово ввімкнути фото товарів і щільність ×3
@@ -36,7 +36,7 @@ python tools/export_shots.py <шлях до insomnia.workshop>/tools/webapp-harn
 | `shell-catalog` | Вітрина з нижньою панеллю | index, quick-start, owner-guide |
 | `hub-products`, `hub-more-menu` | Розділ «Керування» і меню «Ще» | index, owner-guide |
 | `categories` | Вікно «Категорії» (сценарій додано в `tools/docshots-harness.patch`) | quick-start, owner-guide |
-| `product-create`, `product-create-variants` | Форма товару | quick-start, owner-guide |
+| `product-create`, `product-create-variants`, `product-preview` | Екран товару: верх, варіанти й залишки, перегляд у магазині | quick-start, owner-guide |
 | `import-empty`, `import-preview`, `import-result` | Імпорт каталогу | import |
 | `orders-list`, `order-details`, `order-actions`, `order-ttn` | Замовлення і дії з ТТН | index, quick-start, owner-guide, nova-poshta, launch |
 | `settings-subscription`, `settings-access-mode`, `settings-modules` | Підписка, режими доступу, модулі | owner-guide |

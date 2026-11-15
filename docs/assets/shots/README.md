@@ -34,7 +34,7 @@ python tools/export_shots.py <шлях до insomnia.workshop>/tools/webapp-harn
 | Файл | Що на ньому | Сторінка |
 |---|---|---|
 | `shell-catalog` | Вітрина з нижньою панеллю | index, quick-start, owner-guide |
-| `hub-products`, `hub-more-menu` | Розділ «Керування» і меню «Ще» | index, owner-guide |
+| `hub-products`, `hub-tabs-swipe` | Розділ «Керування» і ряд вкладок, прогорнутий свайпом | index, owner-guide |
 | `categories` | Вікно «Категорії» (сценарій додано в `tools/docshots-harness.patch`) | quick-start, owner-guide |
 | `product-create`, `product-create-variants`, `product-preview` | Екран товару: верх, варіанти й залишки, перегляд у магазині | quick-start, owner-guide |
 | `import-empty`, `import-preview`, `import-result` | Імпорт каталогу | import |

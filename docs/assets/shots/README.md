@@ -13,8 +13,9 @@
 cd insomnia.workshop
 git apply <шлях до tgshop-docs>/tools/docshots-harness.patch
 
-# 2. Згенерувати знімки (фото товарів беруться з cartium-website)
+# 2. Згенерувати знімки (фото товарів беруться з cartium-website, банер шапки з tools/demo-header)
 DSF=3 PRODUCT_PHOTOS=<шлях до cartium-website>/src/assets/products \
+  HEADER_ASSETS=<шлях до tgshop-docs>/tools/demo-header \
   node tools/webapp-harness/run.mjs docshots
 
 # 3. Повернути продукт як було
@@ -26,6 +27,8 @@ python tools/export_shots.py <шлях до insomnia.workshop>/tools/webapp-harn
 ```
 
 Знімки експортуються **без округлених кутів і без статус-бару**: рамку iPhone (титанова смуга, Dynamic Island, статус-бар, індикатор «додому») домальовує сайт — хук `hooks/phone_frame.py` обгортає кожне `![…](…){ .phone }`. Якщо Chrome не стартує від root, передайте `CHROME_PATH` на обгортку з `--no-sandbox`.
+
+Вітрина на знімках виглядає як демо-магазин Cartium: світлий верхній рядок «СТВОРІТЬ СВІЙ МАГАЗИН ПРЯМО У ТЕЛЕГРАМ», банер шапки (логотип і назва намальовані в одній картинці `tools/demo-header/header-banner.png`, 1600×400), світлий акцент, категорії лінією, без перемикача теми. Цей вигляд отримують лише знімки, де видно вітрину (`shell-catalog`, `product-preview`, `appearance*`), список `SHOP_LOOK` у патчі. Якщо в демо-магазині змінили банер, замініть картинку в `tools/demo-header/` і перегенеруйте ці знімки.
 
 Сценарій: `tools/webapp-harness/suites/docshots.mjs` (один сценарій = один файл; назва сценарію = назва файлу). Після зміни інтерфейсу продукту пройдіть кроки 1–4 і перегляньте результат.
 

@@ -65,7 +65,7 @@
 ### Collection: `platform_config`
 ```javascript
 {
-  "platform_admin_ids": [392160708, 322482780],
+  "platform_admin_ids": [111111111, 222222222],
   "default_plan": "starter",
   "webhook_base_url": "https://platform.example.com"
 }
@@ -115,7 +115,7 @@ MONGO_URL=mongodb://mongodb:27017/telegram_shop_platform
 DB_NAME=telegram_shop_platform
 
 # Platform Admins - можуть керувати всіма магазинами
-PLATFORM_ADMIN_IDS=392160708,322482780
+PLATFORM_ADMIN_IDS=111111111,222222222
 
 # Environment
 ENVIRONMENT=production

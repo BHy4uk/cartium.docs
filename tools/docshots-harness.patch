@@ -21,10 +21,20 @@ index 5aa8fac..6601c53 100644
        if (st.swipe) { await evaluate(HELPERS); const pt = await evaluate(`(function(){var p=${st.swipe}; return {x:p.x,y:p.y}})()`); await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: pt.x, y: pt.y }] }); for (let k = 1; k <= 4; k++) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: pt.x, y: pt.y - 20 * k }] }); } await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(st.after ?? 450); }
        /* tap: a real touch at a point (x/y are JS expressions evaluated in the page). */
 diff --git a/tools/webapp-harness/server.mjs b/tools/webapp-harness/server.mjs
-index b4851a5..d51408c 100644
+index 4da6236..75f5417 100644
 --- a/tools/webapp-harness/server.mjs
 +++ b/tools/webapp-harness/server.mjs
-@@ -274,7 +274,12 @@ http.createServer(async (req, res) => {
+@@ -273,11 +273,21 @@ http.createServer(async (req, res) => {
+   REQ_CURRENCY = String(req.headers["x-shop-currency"] || "UAH").toUpperCase();
+   if (S.fx && p.startsWith("/api/") && req.headers["x-shop-currency"]) S.fxSeen.push(`${p} ${REQ_CURRENCY}`);
+   try {
+-    if (p === "/api/catalog/theme-image") { res.writeHead(200, { "Content-Type": "image/svg+xml" }); return res.end(bgSvg()); }
++    if (p === "/api/catalog/theme-image") {
++      /* docshots: the demo shop's real header (logo + banner photo) from HEADER_ASSETS. */
++      const own = { header_logo: "header-logo.png", header_image: "header-banner.png" }[u.searchParams.get("kind")];
++      if (process.env.HEADER_ASSETS && own && fs.existsSync(path.join(process.env.HEADER_ASSETS, own))) { res.writeHead(200, { "Content-Type": own.endsWith(".png") ? "image/png" : "image/jpeg" }); return res.end(fs.readFileSync(path.join(process.env.HEADER_ASSETS, own))); }
++      res.writeHead(200, { "Content-Type": "image/svg+xml" }); return res.end(bgSvg());
++    }
      if (p === "/app/manifest.webmanifest") return json(res, { name: "Shop" });
      if (p === "/app/icon.svg") { res.writeHead(200, { "Content-Type": "image/svg+xml" }); return res.end(svg("tee")); }
      if (p === "/__reset") { reset(Object.fromEntries(u.searchParams)); return json(res, { ok: true }); }
@@ -39,10 +49,32 @@ index b4851a5..d51408c 100644
        res.writeHead(200, { "Content-Type": "text/html" }); return res.end(`<body style="margin:0;background:#888"><iframe src="${u.searchParams.get("src")}" style="width:${u.searchParams.get("w") || 390}px;height:${u.searchParams.get("h") || 844}px;border:0;display:block"></iframe></body>`);
      }
 diff --git a/tools/webapp-harness/suites/docshots.mjs b/tools/webapp-harness/suites/docshots.mjs
-index b03fb9e..fa94058 100644
+index b03fb9e..d1255a6 100644
 --- a/tools/webapp-harness/suites/docshots.mjs
 +++ b/tools/webapp-harness/suites/docshots.mjs
-@@ -43,6 +43,15 @@ export default [
+@@ -11,8 +11,20 @@ const section = (name) => ({ js: `${F}.querySelector('[data-settings-section-chi
+ const into = (sel) => ({ js: `(function(){var e=${F}.querySelector('${sel}'); if(e) e.scrollIntoView({block:'start'})})()`, after: 400 });
+ const lift = (sel, by = 120) => ({ js: `(function(){var e=${F}.querySelector('${sel}'); if(e){e.scrollIntoView({block:'start'}); ${W}.scrollBy(0,-${by});}})()`, after: 450 });
+ const shot = (name) => ({ shot: name });
++/* The Cartium demo shop as it looks since 2026-11-21: a light announcement strip, the banner
++   (logo and name are drawn into one picture, HEADER_ASSETS/header-banner.png), light accent,
++   line categories, no theme toggle in the header. */
++const HEADER = JSON.stringify({
++  primary_color: "#E3E2EA", category_style: "line", show_theme_toggle: false,
++  promo_enabled: true, promo_text: "СТВОРІТЬ СВІЙ МАГАЗИН ПРЯМО У ТЕЛЕГРАМ", promo_animation: "continuous",
++  header_banner_enabled: true, header_title: "Cartium", header_show_title: false, header_banner_mode: "image",
++  header_image_url: "/api/catalog/theme-image?t=demo&kind=header_image&v=3", header_image_file_id: "media:banner",
++});
++/* Only the screens that show the storefront wear the demo shop's look: its light accent
++   would also repaint the owner's buttons and checkout, which those shots don't need. */
++const SHOP_LOOK = new Set(["shell-catalog", "product-preview", "appearance", "appearance-edit", "appearance-templates", "appearance-colors"]);
+ const sc = (name, steps, extra = {}) => ({
+-  name, reset: { admin: "1", features: "1", docs: "1", ...(extra.reset || {}) }, url: extra.url || admin, load: 3500, w: extra.w, h: extra.h, steps: [...steps, shot("s")],
++  name, reset: { admin: "1", features: "1", docs: "1", ...(SHOP_LOOK.has(name) ? { theme: HEADER } : {}), ...(extra.reset || {}) }, url: extra.url || admin, load: 3500, w: extra.w, h: extra.h, steps: [...steps, shot("s")],
+ });
+ const SHOP = `${F}.getElementById('apStoreFrame').contentDocument`;
+ const look = [
+@@ -43,6 +55,15 @@ export default [
      { js: `[].slice.call(${F}.querySelectorAll('.product-row')).find(function(r){return /Футболка/.test(r.textContent)}).querySelector('.product-name').click()`, after: 1200 },
      { js: `${F}.querySelector('#productEditor [data-pe-view=preview]').click()`, after: 3500 },
    ]),
@@ -58,7 +90,7 @@ index b03fb9e..fa94058 100644
    sc("import-empty", [more("Імпорт")]),
    sc("import-preview", [more("Імпорт"), pick("products.csv"), { js: `${id('importSubmitBtn')}.click()`, after: 900 }, lift('#importPreview')]),
    sc("import-result", [more("Імпорт"), pick("products.csv"), { js: `${id('importSubmitBtn')}.click()`, after: 900 }, { js: `${id('importConfirmBtn')}.click()`, after: 1400 }, lift('#importReport')]),
-@@ -58,13 +67,24 @@ export default [
+@@ -58,13 +79,24 @@ export default [
    sc("settings-all", [tab("Налаштування")], { reset: { pay: "1" } }),
    sc("settings-subscription", [tab("Налаштування"), section("subscription")], { reset: { sub: "1" } }),
    sc("settings-access-mode", [tab("Налаштування"), section("subscription"), into("#settingsSubscriptionAccessMode")], { reset: { sub: "1" } }),

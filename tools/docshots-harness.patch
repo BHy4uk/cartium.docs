@@ -21,7 +21,7 @@ index 5aa8fac..6601c53 100644
        if (st.swipe) { await evaluate(HELPERS); const pt = await evaluate(`(function(){var p=${st.swipe}; return {x:p.x,y:p.y}})()`); await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: pt.x, y: pt.y }] }); for (let k = 1; k <= 4; k++) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: pt.x, y: pt.y - 20 * k }] }); } await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(st.after ?? 450); }
        /* tap: a real touch at a point (x/y are JS expressions evaluated in the page). */
 diff --git a/tools/webapp-harness/server.mjs b/tools/webapp-harness/server.mjs
-index 4da6236..75f5417 100644
+index 4d5037b..4b8191b 100644
 --- a/tools/webapp-harness/server.mjs
 +++ b/tools/webapp-harness/server.mjs
 @@ -273,11 +273,21 @@ http.createServer(async (req, res) => {

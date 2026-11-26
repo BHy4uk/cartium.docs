@@ -15,7 +15,7 @@ icon: ph/rocket-launch
 
 <div class="c-summary-item" markdown>
 <span class="c-summary-value">14 днів</span>
-<span class="c-summary-label">безкоштовно, без картки</span>
+<span class="c-summary-label">тарифу Pro безкоштовно, без картки</span>
 </div>
 
 <div class="c-summary-item" markdown>
@@ -43,7 +43,7 @@ icon: ph/rocket-launch
 1. **Назву магазину.** Її бачитимуть покупці.
 2. **Токен Telegram-бота.** Через цього бота покупці замовлятимуть у вас. Створити його можна за хвилину в @BotFather, бот Cartium підкаже кожен крок.
 
-Готово: магазин створено. Перші 14 днів безкоштовні.
+Готово: магазин створено. Перші 14 днів безкоштовні, і весь цей час діє тариф Pro з усіма можливостями.
 
 ??? example "Як отримати токен у @BotFather"
     1. Відкрийте @BotFather (кнопка `Відкрити @BotFather` є в повідомленні) і надішліть `/newbot`.
@@ -210,7 +210,7 @@ icon: ph/rocket-launch
 
 <div class="card" markdown>
 ### :ph-seal-check: Оберіть тариф
-Пробний період триває 14 днів. Щоб магазин не зупинився, оберіть тариф у `Налаштування` → `Підписка`.
+Пробний період триває 14 днів на тарифі Pro. Щоб магазин не зупинився, після нього оберіть тариф у `Налаштування` → `Підписка`.
 
 [Про тарифи :ph-arrow-right:](owner-guide.md#підписка){ .card-link }
 </div>

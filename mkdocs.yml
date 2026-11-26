@@ -94,8 +94,8 @@ extra:
   # Питання пишуть людині, а не боту: бот лише створює магазини.
   support_url: https://t.me/cartium_support
   support_handle: cartium_support
-  terms_url: https://cartium.work/terms
-  privacy_url: https://cartium.work/privacy
+  terms_url: https://cartium.store/terms
+  privacy_url: https://cartium.store/privacy
 
 # Знімки Mini App автоматично отримують рамку iPhone (див. hooks/phone_frame.py)
 hooks:
